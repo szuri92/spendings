@@ -1,17 +1,17 @@
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs'
 
-const baseURL = 'http://localhost:5000';
+const baseURL = 'http://localhost:5000'
 
-const _spendingSaved = new Subject();
+const _spendingSaved = new Subject()
 
 export const spendingsAPI = {
     getSpendings: async ({currency, sort}) => {
 
-        const currencyQuery = currency ? `?currency=${currency}` : '?currency=';
-        const sortByQuery = sort ? `&sortBy=${sort}` : '&sortBy=';
+        const currencyQuery = currency ? `?currency=${currency}` : '?currency='
+        const sortByQuery = sort ? `&sortBy=${sort}` : '&sortBy='
 
-        const response = await fetch(`${baseURL}/spendings/list${currencyQuery}${sortByQuery}`);
-        return await response.json();
+        const response = await fetch(`${baseURL}/spendings/list${currencyQuery}${sortByQuery}`)
+        return await response.json()
     },
 
     postNewSpending: async (spending) => {
@@ -26,10 +26,10 @@ export const spendingsAPI = {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        });
+        })
 
-        _spendingSaved.next();
-        return await response.json();
+        _spendingSaved.next()
+        return await response.json()
     },
 
     spendingSaved: () => _spendingSaved.asObservable()

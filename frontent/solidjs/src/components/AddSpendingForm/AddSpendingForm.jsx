@@ -1,26 +1,30 @@
-import { createSignal } from "solid-js";
+import { createSignal, Show } from 'solid-js'
 
 import styles from './AppSpendingForm.module.scss'
 import { spendingsAPI } from '../../../services/spendings'
 
+const defaultData = {
+    description: '',
+    amount: 0,
+    currency: 'USD',
+}
+
 const AddSpendingForm = () => {
-    const [formData, setFormData] = createSignal({
-        description: '',
-        amount: 0,
-        currency: 'USD',
-    })
+    const [formData, setFormData] = createSignal(defaultData)
+    const [error, setError] = createSignal(false)
+
+
+    const isFormValid = (formData) => {
+        return formData?.description && formData?.amount 
+    }
 
 
     const resetForm = () => {
-        setFormData({
-            description: '',
-            amount: 0,
-            currency: 'USD',
-        })
+        setFormData(defaultData)
     }
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const { name, value } = event.target
         setFormData({
             ...formData(),
             [name]: value,
@@ -29,11 +33,21 @@ const AddSpendingForm = () => {
 
     const submit = (event) => {
         event.preventDefault()
+        setError(false)
+
+        const data = formData()
+
+        if(!isFormValid(data)) {
+            setError(true)
+            return
+        }
+
         spendingsAPI.postNewSpending(formData())
         resetForm()
     }
 
     return (
+        <> 
         <form class={styles.form}>
             <input 
                 type='text'
@@ -62,7 +76,10 @@ const AddSpendingForm = () => {
             <button onClick={submit}>Save</button>
 
         </form>
+
+        <Show when={error()}>Form is invalid</Show>
+        </>
     )
 }
 
-export default AddSpendingForm;
+export default AddSpendingForm

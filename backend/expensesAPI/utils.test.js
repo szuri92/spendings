@@ -1,4 +1,4 @@
-const { sortSpendings, filterSpending } = require('./')
+const { sortSpendings, filterSpending } = require('./utils')
 
 describe('filterSpending', () => {
     it('should filter items', () => {

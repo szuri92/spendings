@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
-const spendings = require('./expensesAPI')?.router
+const spendings = require('./expensesAPI')
 
 const app = express()
 app.use(cors())

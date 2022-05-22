@@ -6,11 +6,11 @@ describe('/spendings/list', () => {
     request(app)
       .get("/spendings/list")
       .then(response => {
-        expect(response.statusCode).toBe(200);
-        done();
-      });
-  });
-});
+        expect(response.statusCode).toBe(200)
+        done()
+      })
+  })
+})
 
 describe('/spendings/add', () => {
   test("It should response the GET method", done => {
@@ -25,9 +25,9 @@ describe('/spendings/add', () => {
       .post("/spendings/add")
       .send(body)
       .then(response => {
-        expect(response.statusCode).toBe(200);
-        done();
-      });
-  });
-});
+        expect(response.statusCode).toBe(200)
+        done()
+      })
+  })
+})
 

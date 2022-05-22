@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import styles from './SpendingTile.module.scss'
 
 const getAmount = (currency, amount) => {
@@ -12,8 +13,7 @@ const getAmount = (currency, amount) => {
 }
 
 const convertDate = (dateString) => {
-    const date = new Date(dateString)
-    return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`
+    return DateTime.fromISO(dateString).toFormat("t - MMMM dd, yyyy")
 }
 
 

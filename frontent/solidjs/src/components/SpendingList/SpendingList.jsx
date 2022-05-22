@@ -5,39 +5,46 @@ import SpendingTile from '../SpendingTile'
 
 import { filterService } from '../../../services/filter'
 import { spendingsAPI } from './../../../services/spendings'
-import {  merge } from 'rxjs'
 
 const SpendingList = () => {
+    
     const [ spendings, setSpendings ] = createSignal([])
     const [ error, setError ] = createSignal(false)
     const [ loading, setLoading ] = createSignal(true)
     const [ filter, setFilter ] = createSignal({})
 
+    const requestList = async (params) => {
+        params && setFilter(params)
+        try {
+            setLoading(true)
+            setError(false)
+
+            const list = await spendingsAPI.getSpendings(filter())
+
+            setSpendings(list)
+        } catch (e) {
+            setError(true)
+            setLoading(false)
+        } finally {
+            setLoading(false)
+        }
+    }
+
     createEffect(() => {
-        const call = merge(
-            spendingsAPI.spendingSaved(),
-            filterService.filter(),
-        ).subscribe(async res => {
-            res && setFilter(res)
-            try {
+        const call = filterService.filter()
+        .subscribe(async res => {
+            requestList(res)
+        })
 
-                setLoading(true)
-                setError(false)
+        onCleanup(() => {
+            call.unsubscribe()
+        })
+    })
 
-                const list = await spendingsAPI.getSpendings(filter())
-
-                setSpendings(list)
-                
-            } catch (e) {
-
-                setError(true)
-                setLoading(false)
-
-            } finally {
-
-                setLoading(false)
-                
-            }
+    createEffect(() => {
+        const call = spendingsAPI.spendingSaved()
+        .subscribe(() => {
+            requestList()
         })
 
         onCleanup(() => {
