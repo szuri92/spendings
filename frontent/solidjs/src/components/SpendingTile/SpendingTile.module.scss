@@ -1,0 +1,16 @@
+.spending_tile { 
+    border-radius: 8px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    padding: 1.5rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    justify-content: space-between;
+
+    .spending_tile_description, .spending_tile__amount {
+        font-weight: 700;
+    }
+
+}
