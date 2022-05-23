@@ -28,7 +28,7 @@ const availableCurrencies = [
 
 
 const Filter = () => {
-    const [ { sorting }, { updateSorting }] = useSpending();
+    const [ { sorting }, { updateSorting }] = useSpending()
     const setSorting = (event) => {
         const sort = event.target.value
         updateSorting({sort})
@@ -48,20 +48,16 @@ const Filter = () => {
                 </select>
             </div>
 
-            <div className="filter">
-
-            <ul className={styles.filter}>
-            <Index each={availableCurrencies}>
-                    { item => <li onClick={() => setFilter(item())}>
-                        <button className={`${styles.currency_btn} ${sorting()?.currency === item() ? styles.active : ""}`}>
-                            { item() }
-                        </button>
-                    </li> }
-            </Index>
-            </ul>
-
-
-               
+            <div>
+                <ul className={styles.filter}>
+                <Index each={availableCurrencies}>
+                        { item => <li onClick={() => setFilter(item())}>
+                            <button className={`${styles.currency_btn} ${sorting()?.currency === item() ? styles.active : ""}`}>
+                                { item() }
+                            </button>
+                        </li> }
+                </Index>
+                </ul>
             </div>
         </div>
     )

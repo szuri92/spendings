@@ -11,7 +11,7 @@ export function SpendingsProvider(props) {
 
     const [ error, setError ] = createSignal(false)
 
-    const [ spendingList, setSpendingList ] = createSignal([]);
+    const [ spendingList, setSpendingList ] = createSignal([])
 
     const fetchData = async(params) => {
         try {
@@ -26,7 +26,7 @@ export function SpendingsProvider(props) {
     }
 
     const postAndRefresh = async(spending) => {
-        const params = sorting();
+        const params = sorting()
         try {
             const spendingList = await spendingsAPI.postAndRefresh(spending, params)
             setSpendingList(spendingList)
@@ -61,7 +61,7 @@ export function SpendingsProvider(props) {
         <SpendingsContext.Provider value={store}>
           {props.children}
         </SpendingsContext.Provider>
-      );
+      )
 }
 
-export function useSpending() { return useContext(SpendingsContext); }
+export function useSpending() { return useContext(SpendingsContext) }

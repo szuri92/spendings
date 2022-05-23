@@ -1,7 +1,6 @@
 import { createSignal, Show } from 'solid-js'
 
 import styles from './AppSpendingForm.module.scss'
-import { spendingsAPI } from '../../../services/spendings'
 import { useSpending } from '../Provider/Provider'
 
 const defaultData = {
