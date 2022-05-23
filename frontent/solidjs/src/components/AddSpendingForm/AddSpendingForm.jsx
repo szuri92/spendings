@@ -2,6 +2,7 @@ import { createSignal, Show } from 'solid-js'
 
 import styles from './AppSpendingForm.module.scss'
 import { spendingsAPI } from '../../../services/spendings'
+import { useSpending } from '../Provider/Provider'
 
 const defaultData = {
     description: '',
@@ -13,11 +14,12 @@ const AddSpendingForm = () => {
     const [formData, setFormData] = createSignal(defaultData)
     const [error, setError] = createSignal(false)
 
+    const postAndRefresh = useSpending()[1].postAndRefresh
+
 
     const isFormValid = (formData) => {
         return formData?.description && formData?.amount 
     }
-
 
     const resetForm = () => {
         setFormData(defaultData)
@@ -42,7 +44,7 @@ const AddSpendingForm = () => {
             return
         }
 
-        spendingsAPI.postNewSpending(formData())
+        postAndRefresh(data)
         resetForm()
     }
 

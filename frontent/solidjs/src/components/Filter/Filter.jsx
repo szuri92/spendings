@@ -1,57 +1,63 @@
 import styles from './Filter.module.scss'
+import { useSpending } from '../Provider/Provider'
 
-import { createEffect, createSignal, For, onCleanup } from "solid-js"
-import { filterService, availableCurrencies, availableSortings } from '../../../services/filter'
+const availableSortings = [
+    {
+        name: 'date',
+        description: 'Sort by Date descending (default)',
+    },
+    {
+        name: '-date',
+        description: 'Sort by Date ascending',
+    },
+    {
+        name: 'amount',
+        description: 'Sort by Amount descending',
+
+    },
+    {
+        name: '-amount',
+        description: 'Sort by Amount ascending',
+    }
+]
+const availableCurrencies = [
+    'ALL',
+    'HUF',
+    'USD',
+]
+
 
 const Filter = () => {
-
-    const [filter, setFilter] = createSignal({
-        currency: "",
-        sort: "",
-    })
-
-
-    createEffect(() => {
-        const call = filterService.filter().subscribe(filter => {
-            setFilter(filter)
-        })
-
-        onCleanup(() => {
-            call.unsubscribe()
-        })
-    })
-
-
-    const updateSorting = (event) => {
+    const [ { sorting }, { updateSorting }] = useSpending();
+    const setSorting = (event) => {
         const sort = event.target.value
-        filterService.updateFilter({...filter(), sort})
+        updateSorting({sort})
     }
-
-    const updateFilter = (value) => {
-        filterService.updateFilter({...filter(), currency: value})
+    const setFilter = (value) => {
+        updateSorting({currency: value})
     }
 
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.order}>
-                <select onChange={updateSorting} value={filter()?.sort}>
-                    <For each={availableSortings}>
-                        {item => <option value={item?.name}>{item?.description}</option>}
-                    </For>
+                <select onChange={setSorting} value={sorting()?.sort}>
+                    <Index each={availableSortings}>
+                        { item => <option value={item()?.name}>{item()?.description}</option> }
+                    </Index>
                 </select>
             </div>
 
             <div className="filter">
 
             <ul className={styles.filter}>
-            <For each={availableCurrencies}>
-                    { item => <li onClick={() => updateFilter(item)}>
-                        <button className={`${styles.currency_btn} ${filter()?.currency === item ? styles.active : ""}`}>
-                            { item }
+            <Index each={availableCurrencies}>
+                    { item => <li onClick={() => setFilter(item())}>
+                        <button className={`${styles.currency_btn} ${sorting()?.currency === item() ? styles.active : ""}`}>
+                            { item() }
                         </button>
                     </li> }
-            </For>
+            </Index>
             </ul>
 
 

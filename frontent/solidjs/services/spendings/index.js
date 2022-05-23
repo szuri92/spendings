@@ -1,9 +1,6 @@
 import { Subject } from 'rxjs'
 
 const baseURL = 'http://localhost:5000'
-
-const _spendingSaved = new Subject()
-
 export const spendingsAPI = {
     getSpendings: async ({currency, sort}) => {
 
@@ -27,10 +24,15 @@ export const spendingsAPI = {
             },
             body: JSON.stringify(data)
         })
-
-        _spendingSaved.next()
         return await response.json()
     },
 
-    spendingSaved: () => _spendingSaved.asObservable()
+    postAndRefresh: async(spending, {currency, sort}) => {
+        try {
+            await spendingsAPI.postNewSpending(spending)
+            return await spendingsAPI.getSpendings({currency, sort})
+        } catch (error) {
+            throw error
+        }
+    }
 }
