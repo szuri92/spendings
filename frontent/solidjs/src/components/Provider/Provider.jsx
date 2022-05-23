@@ -53,7 +53,6 @@ export function SpendingsProvider(props) {
     ]
 
     createEffect(() => {
-        console.log('createEffect running')
         const params = sorting()
         fetchData(params)
     })
