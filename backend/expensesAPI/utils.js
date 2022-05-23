@@ -24,7 +24,19 @@ const filterSpending = (element, currency) => {
     return element.currency === currency
 }
 
+
+isRequestValid = (data) => {
+    const { description, amount, spent_at, currency } = data
+
+    if (!description || !amount || !spent_at || !currency) {
+        return false
+    }
+
+    return true
+}
+
 module.exports = {
     sortSpendings,
-    filterSpending
+    filterSpending,
+    isRequestValid
 }

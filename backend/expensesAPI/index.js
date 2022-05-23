@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const {filterSpending, sortSpendings } = require('./utils')
+const {filterSpending, sortSpendings, isRequestValid } = require('./utils')
 
 const spendings = []
 
@@ -19,6 +19,11 @@ router.get('/list', (req, res) => {
 router.post('/add', (req, res) => {
     try {
         const { body } = req
+
+        if(!isRequestValid(body)) {
+            res.status(400).send('Bad request')
+            return
+        }
         spendings.push(body)
         res.send({ success: true })
     } catch (e) {
