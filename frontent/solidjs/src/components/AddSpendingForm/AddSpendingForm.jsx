@@ -52,6 +52,7 @@ const AddSpendingForm = () => {
         <form class={styles.form}>
             <input 
                 type='text'
+                id='description'
                 placeholder='description'
                 name='description'
                 value={formData().description}
@@ -60,6 +61,7 @@ const AddSpendingForm = () => {
 
             <input 
                 type='number'
+                id='amount'
                 placeholder='amount'
                 name='amount'
                 value={formData().amount}
@@ -68,6 +70,7 @@ const AddSpendingForm = () => {
 
             <select  
                 name='currency'
+                id='currency'
                 value={formData().currency}
                 onChange={handleChange}>
                 <option value='HUF'>HUF</option>
